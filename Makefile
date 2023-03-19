@@ -7,4 +7,9 @@ setup:
 lint:
 	bundle exec rubocop
 
-check: lint
+test:
+	bundle exec rspec
+
+check: lint test
+
+.PHONY: test
