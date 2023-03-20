@@ -27,5 +27,27 @@ RSpec.describe 'Books' do
         expect(json_body['data'].length).to eq(3)
       end
     end
+
+    describe 'field picking' do
+      context 'with the "field" parameter' do
+        before { get '/api/books?fields=id,title,author_id' }
+
+        it 'returns books with only the id, title and author_id keys' do
+          json_body['data'].each do |book|
+            expect(book.keys).to eq %w[id title author_id]
+          end
+        end
+      end
+
+      context 'without the "fields" parameter' do
+        before { get '/api/books' }
+
+        it 'returns books with all the fields specified in the presenter' do
+          json_body['data'].each do |book|
+            expect(book.keys).to eq BookPresenter.build_attributes.map(&:to_s)
+          end
+        end
+      end
+    end
   end
 end

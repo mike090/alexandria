@@ -17,3 +17,5 @@ Style/Documentation:
   Enabled: false
 Naming/VariableNumber:
   CheckSymbols: false
+RSpec/NestedGroups:
+  Max: 5
