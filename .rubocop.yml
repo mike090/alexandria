@@ -19,3 +19,5 @@ Naming/VariableNumber:
   CheckSymbols: false
 RSpec/NestedGroups:
   Max: 5
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
