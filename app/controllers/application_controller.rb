@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  rescue_from QueryBuilderError, with: :query_builder_error
+  rescue_from QueryBuilderError, with: :builder_error
+  rescue_from RepresentationBuilderError, with: :builder_error
 
   protected
 
-  def query_builder_error(error)
+  def builder_error(error)
     render status: 400, json: {
       error: {
         message: error.message,
@@ -14,21 +15,13 @@ class ApplicationController < ActionController::API
     }
   end
 
-  def filter(scope)
-    Filter.new(scope, params.to_unsafe_hash).filter
-  end
-
-  def sort(scope)
-    Sorter.new(scope, params.to_unsafe_hash).sort
-  end
-
-  def paginate(scope)
-    paginator = Paginator.new(scope, params.to_unsafe_hash, current_url)
-    response.headers['Link'] = paginator.links
-    paginator.paginate
-  end
-
-  def current_url
-    request.base_url + request.path
+  def orchestrate_query(scope, actions = :all)
+    QueryOrchestrator.new(
+      scope:,
+      params: params.to_unsafe_hash,
+      request:,
+      response:,
+      actions:
+    ).run
   end
 end

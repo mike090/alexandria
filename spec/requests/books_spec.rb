@@ -48,6 +48,50 @@ RSpec.describe 'Books' do
           end
         end
       end
+
+      context 'with invalid "fields" parameter' do
+        before { get '/api/books?fields=fid,title,author_id' }
+
+        it 'returns 400 "Bad Request"' do
+          expect(response).to have_http_status :bad_request
+        end
+
+        it 'returns an error' do
+          expect(json_body['error']).not_to be_nil
+        end
+
+        it 'returns an invalid params' do
+          expect(json_body['error']['invalid_params']).to eq 'fields=fid'
+        end
+      end
+    end
+
+    describe 'embed picking' do
+      context 'with the "embed" parameter' do
+        before { get '/api/books?embed=author' }
+
+        it 'returns the books with their authors embedded' do
+          json_body['data'].each do |book|
+            expect(book['author'].keys).to eq AuthorPresenter.build_attributes
+          end
+        end
+      end
+
+      context 'with invalid "embed" parameter' do
+        before { get '/api/books?embed=fake' }
+
+        it 'returns 400 "Bad Request"' do
+          expect(response).to have_http_status :bad_request
+        end
+
+        it 'returns an error' do
+          expect(json_body['error']).not_to be_nil
+        end
+
+        it 'returns invalid parameter' do
+          expect(json_body['error']['invalid_params']).to eq 'embed=fake'
+        end
+      end
     end
 
     describe 'pagination' do
