@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class BasePresenter
+  include Rails.application.routes.url_helpers
+
   CLASS_ATTRIBUTES = {
     build_with: :build_attributes,
     related_to: :relations,

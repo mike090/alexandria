@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe 'Books' do
-  let(:ruby_microscope) { create(:ruby_microscope) }
-  let(:rails_tutorial) { create(:ruby_on_rails_tutorial) }
-  let(:agile_web_dev) { create(:agile_web_development) }
-
-  let(:books) { [ruby_microscope, rails_tutorial, agile_web_dev] }
-
   describe 'GET /api/books' do
+    let(:ruby_microscope) { create(:ruby_microscope) }
+    let(:rails_tutorial) { create(:ruby_on_rails_tutorial) }
+    let(:agile_web_dev) { create(:agile_web_development) }
+
+    let(:books) { [ruby_microscope, rails_tutorial, agile_web_dev] }
+
     before { books }
 
     context 'when behavior is default' do
@@ -190,6 +190,139 @@ RSpec.describe 'Books' do
         it 'returns an invalid param data' do
           expect(json_body['error']['invalid_params']).to eq 'q[ftitle_cont]=Ruby'
         end
+      end
+    end
+  end
+
+  describe 'GET /api/books/:id' do
+    let(:rails_tutorial) { create(:ruby_on_rails_tutorial) }
+
+    context 'with existing resource' do
+      before { get "/api/books/#{rails_tutorial.id}" }
+
+      it 'returns HTTP status 200' do
+        expect(response).to have_http_status :ok
+      end
+
+      it 'returns the "rails_tutorial" book as JSON' do
+        expected = { data: BookPresenter.new(rails_tutorial, {}).fields.embeds }.to_json
+        expect(response.body).to eq expected
+      end
+    end
+
+    context 'with nonexisting resource' do
+      it 'returns HTTP status 404' do
+        get '/api/books/12345'
+        expect(response).to have_http_status :not_found
+      end
+    end
+  end
+
+  describe 'POST /api/books' do
+    let(:author) { create(:michael_hartl) }
+
+    before { post '/api/books', params: { data: params } }
+
+    context 'with valid parameters' do
+      let(:params) { attributes_for(:ruby_on_rails_tutorial, author_id: author.id) }
+
+      it 'returns HTTP status 201' do
+        expect(response).to have_http_status :created
+      end
+
+      it 'returns the newly created resource' do
+        expect(json_body['data']['title']).to eq 'Ruby on Rails Tutorial'
+      end
+
+      it 'adds a record to database' do
+        expect(Book.count).to eq 1
+      end
+
+      it 'returns the new resource location in the Location header' do
+        expect(response.headers['Location']).to eq(
+          "http://www.example.com/api/books/#{Book.first.id}"
+        )
+      end
+    end
+
+    context 'with invalid parameters' do
+      let(:params) { attributes_for(:ruby_on_rails_tutorial, title: '') }
+
+      it 'returns HTTP status 422' do
+        expect(response).to have_http_status :unprocessable_entity
+      end
+
+      it 'returns the error details' do
+        expect(json_body['error']['invalid_params']).to(
+          eq({ 'author' => ["can't be blank", 'must exist'], 'title' => ["can't be blank"] })
+        )
+      end
+
+      it 'does not add a record in the database' do
+        expect(Book.count).to eq 0
+      end
+    end
+  end
+
+  describe 'PATCH /api/books/:id' do
+    let(:book) { create(:ruby_on_rails_tutorial) }
+
+    before { patch "/api/books/#{book.id}", params: { data: params } }
+
+    context 'with valid parameters' do
+      let(:params) { { title: 'The Ruby on Rails Tutorial' } }
+
+      it 'returns HTTP status 200' do
+        expect(response).to have_http_status :ok
+      end
+
+      it 'returns the updated resource' do
+        expect(json_body['data']['title']).to eq 'The Ruby on Rails Tutorial'
+      end
+
+      it 'updates record in the database' do
+        expect(Book.first.title).to eq 'The Ruby on Rails Tutorial'
+      end
+    end
+
+    context 'with invalid parameters' do
+      let(:params) { { title: '' } }
+
+      it 'returns HTTP status 422' do
+        expect(response).to have_http_status :unprocessable_entity
+      end
+
+      it 'returns the error details' do
+        expect(json_body['error']['invalid_params']).to eq(
+          { 'title' => ["can't be blank"] }
+        )
+      end
+
+      it 'does not updated the record in the database' do
+        expect(Book.first.title).to eq 'Ruby on Rails Tutorial'
+      end
+    end
+  end
+
+  describe 'DELETE /api/books/:id' do
+    let(:book) { create(:ruby_on_rails_tutorial) }
+
+    context 'with existing resource' do
+      before { delete "/api/books/#{book.id}" }
+
+      it 'returns HTTP status 204' do
+        expect(response).to have_http_status :no_content
+      end
+
+      it 'deletes the book from the database' do
+        expect(Book.count).to eq 0
+      end
+    end
+
+    context 'with nonexisting resource' do
+      it 'returns HTTP status 404' do
+        delete '/api/books/12345'
+        expect(response).to have_http_status :not_found
       end
     end
   end
