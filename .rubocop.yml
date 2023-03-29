@@ -12,6 +12,7 @@ AllCops:
     - 'bin/**'
     - 'db/schema.rb'
     - 'db/migrate/**'
+    - 'db/seeds.rb'
 
 Style/Documentation:
   Enabled: false

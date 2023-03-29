@@ -119,11 +119,11 @@ RSpec.describe 'Publishers' do
 
     describe 'sorting' do
       context 'with valid column name "id"' do
-        let(:query_params) { { sort: :id } }
+        let(:query_params) { { sort: :id, dir: :desc } }
 
         it 'returns sorting data' do
           expect(response).to have_http_status :ok
-          expect(json_body['data'].map { |publisher| publisher['id'] }).to eq([1, 2, 3])
+          expect(json_body['data'].map { |publisher| publisher['id'] }).to eq(publishers.reverse.map(&:id))
         end
       end
 

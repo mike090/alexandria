@@ -7,7 +7,7 @@ ruby '3.2.0'
 
 gem 'rails', '~> 7.0.4', '>= 7.0.4.3'
 
-gem 'sqlite3', '~> 1.4'
+gem 'pg', '~> 1.4.6'
 
 gem 'puma', '~> 5.0'
 
@@ -20,6 +20,8 @@ gem 'carrierwave'
 gem 'carrierwave-base64'
 
 gem 'kaminari', '~> 1.2.2'
+
+gem 'pg_search', '~> 2.3.6'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

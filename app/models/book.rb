@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Book < ApplicationRecord
+  include PgSearch::Model
+
+  multisearchable against: %i[title subtitle description]
+
   validates :title, :released_on, :author, presence: true
 
   validates :isbn_10, presence: true, length: { is: 10 }, uniqueness: true
