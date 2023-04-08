@@ -425,7 +425,7 @@ futura = Publisher.create!(name: 'Futura')
 
 gnome_press = Publisher.create!(name: 'Gnome Press')
 
-lubbe = Publisher.create!(name: 'L�bbe')
+lubbe = Publisher.create!(name: 'Lübbe')
 
 rebound_by_sagebrush = Publisher.create!(name: 'Rebound by Sagebrush')
 
@@ -481,7 +481,7 @@ berkley = Publisher.create!(name: 'Berkley')
 
 pan_macmillan = Publisher.create!(name: 'Pan Macmillan')
 
-denoel = Publisher.create!(name: 'Deno�l')
+denoel = Publisher.create!(name: 'Denoel')
 
 edhasa = Publisher.create!(name: 'Edhasa')
 
@@ -1278,7 +1278,7 @@ Book.create!(title: 'William Shatner and Leonard Nimoy Read Four Science Fiction
              isbn_10: '1559948841', isbn_13: '9781559948845', description: '', released_on: '1993-01-01', publisher: harpercollins_publishers, author: asimov)
 Book.create!(title: 'Yo Robot', subtitle: '', isbn_10: '9500711796', isbn_13: '9789500711791', description: '',
              released_on: '1993-01-01', publisher: sudamericana, author: asimov)
-Book.create!(title: 'Fundaci�n', subtitle: '', isbn_10: '8401491363', isbn_13: '9788401491368', description: '',
+Book.create!(title: 'Fundacion', subtitle: '', isbn_10: '8401491363', isbn_13: '9788401491368', description: '',
              released_on: '1993-01-01', publisher: bruguera, author: asimov)
 Book.create!(title: 'The Bicentennial man and other stories', subtitle: '', isbn_10: '0385121989',
              isbn_13: '9780385121989', description: '', released_on: '1993-01-01', publisher: doubleday, author: asimov)
@@ -1717,7 +1717,7 @@ Book.create!(title: "Isaac Asimov's Book of facts", subtitle: '', isbn_10: '0448
              description: '', released_on: '1993-01-01', publisher: grosset_dunlap, author: asimov)
 Book.create!(title: 'Opus 300', subtitle: '', isbn_10: '0395361087', isbn_13: '9780395361085', description: '',
              released_on: '1993-01-01', publisher: houghton_mifflin, author: asimov)
-Book.create!(title: 'Pr�lude � Fondation', subtitle: '', isbn_10: '2266034715', isbn_13: '9782266034715',
+Book.create!(title: 'Prélude à Fondation', subtitle: '', isbn_10: '2266034715', isbn_13: '9782266034715',
              description: '', released_on: '1993-01-01', publisher: pocket, author: asimov)
 Book.create!(title: 'A short history of chemistry', subtitle: '', isbn_10: '0435550608', isbn_13: '9780435550608',
              description: '', released_on: '1993-01-01', publisher: heinemann, author: asimov)
@@ -2165,7 +2165,7 @@ Book.create!(title: 'Moi, Asimov', subtitle: '', isbn_10: '2207251071', isbn_13:
              released_on: '1993-01-01', publisher: denoel, author: asimov)
 Book.create!(title: "L'amour, vous connaissez?", subtitle: '', isbn_10: '2207249190', isbn_13: '9782207249192',
              description: '', released_on: '1993-01-01', publisher: denoel, author: asimov)
-Book.create!(title: 'La m�re des mondes', subtitle: '', isbn_10: '2207301990', isbn_13: '9782207301999',
+Book.create!(title: 'La mere des mondes', subtitle: '', isbn_10: '2207301990', isbn_13: '9782207301999',
              description: '', released_on: '1993-01-01', publisher: denoel, author: asimov)
 Book.create!(title: 'Chrono-minets', subtitle: '', isbn_10: '2070421678', isbn_13: '9782070421671', description: '',
              released_on: '1993-01-01', publisher: gallimard, author: asimov)
@@ -2381,7 +2381,7 @@ Book.create!(title: 'Please explain', subtitle: '', isbn_10: '0200722883', isbn_
              released_on: '1993-01-01', publisher: abelard_schuman, author: asimov)
 Book.create!(title: 'Today and tomorrow and', subtitle: '', isbn_10: '0200722069', isbn_13: '9780200722063',
              description: '', released_on: '1993-01-01', publisher: abelard_schuman, author: asimov)
-Book.create!(title: 'Die fr�he Foundation- Trilogie.', subtitle: '', isbn_10: '3453196570', isbn_13: '9783453196575',
+Book.create!(title: 'Die frühe Foundation- Trilogie.', subtitle: '', isbn_10: '3453196570', isbn_13: '9783453196575',
              description: '', released_on: '1993-01-01', publisher: heyne, author: asimov)
 Book.create!(title: 'Uranus', subtitle: '', isbn_10: '0836832434', isbn_13: '9780836832433',
              description: 'Introduces the third largest known planet in the solar system.', released_on: '1993-01-01', publisher: gareth_stevens_pub, author: asimov)
@@ -2465,7 +2465,7 @@ Book.create!(title: 'Science fiction, science fact', subtitle: '', isbn_10: '044
              description: 'Compares what writers over the centuries have written about an imaginary future with the reality revealed by time.', released_on: '1993-01-01', publisher: dell_publishing, author: asimov)
 Book.create!(title: 'Rings of Saturn', subtitle: '', isbn_10: '0340491116', isbn_13: '9780340491119', description: '',
              released_on: '1993-01-01', publisher: hodder_stoughton_general_divis, author: asimov)
-Book.create!(title: "La Fin de l'�ternit�", subtitle: '', isbn_10: '207042264X', isbn_13: '9782070422647',
+Book.create!(title: "La Fin de l'eternite", subtitle: '', isbn_10: '207042264X', isbn_13: '9782070422647',
              description: '', released_on: '1993-01-01', publisher: gallimard, author: asimov)
 Book.create!(title: 'Norby and the court jester', subtitle: '', isbn_10: '0802781314', isbn_13: '9780802781314',
              description: "While visiting the toy and game fair on planet Izz, Jeff and Norby search for a missing robot and the villain responsible for sabotaging theplanet's computer system.", released_on: '1993-01-01', publisher: walker, author: asimov)

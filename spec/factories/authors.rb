@@ -15,4 +15,12 @@ FactoryBot.define do
     given_name { 'Sam' }
     family_name { 'Ruby' }
   end
+
+  factory :invalid_author_attributes, class: 'Author' do
+    given_name { '' }
+  end
+
+  factory :error_author_attributes, class: 'Author' do
+    given_name { 'pat' }
+  end
 end

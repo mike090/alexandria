@@ -7,7 +7,7 @@ FactoryBot.define do
     isbn_10 { '1593275617' }
     isbn_13 { '9781593275617' }
     description { 'Ruby Under a Microscope is a cool book!' }
-    released_on { '2013-09-01' }
+    released_on { Date.parse('2013-09-01') }
     publisher
     author
   end
@@ -18,7 +18,7 @@ FactoryBot.define do
     isbn_10 { '0134077709' }
     isbn_13 { '9780134077703' }
     description { 'The Rails Tutorial is great!' }
-    released_on { '2013-05-09' }
+    released_on { Date.parse('2013-05-09') }
     publisher_id { nil }
     association :author, factory: :michael_hartl
   end
@@ -29,8 +29,16 @@ FactoryBot.define do
     isbn_10 { '1937785564' }
     isbn_13 { '9781937785567' }
     description { 'Stay agile!' }
-    released_on { '2015-10-11' }
+    released_on { Date.parse('2015-10-11') }
     publisher
     association :author, factory: :sam_ruby
+  end
+
+  factory :invalid_book_attributes, class: 'Book' do
+    title { '' }
+  end
+
+  factory :error_book_attributes, class: 'Book' do
+    title { 'Ruby Under a Cap' }
   end
 end

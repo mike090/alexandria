@@ -12,4 +12,12 @@ FactoryBot.define do
   factory :super_books, class: 'Publisher' do
     name { 'Super Books' }
   end
+
+  factory :invalid_publisher_attributes, class: 'Publisher' do
+    name { '' }
+  end
+
+  factory :error_publisher_attributes, class: 'Publisher' do
+    name { "O'Reily" }
+  end
 end
