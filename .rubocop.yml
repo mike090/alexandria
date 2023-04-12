@@ -25,7 +25,7 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/MultipleExpectations:
   Max: 7
 RSpec/ExampleLength:
-  Max: 10
+  Max: 12
 RSpec/ContextWording:
   Include:
     - cheks for

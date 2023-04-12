@@ -10,7 +10,7 @@ shared_context 'post resource' do
     reflections.to_h { |reflection| ["#{reflection.name}_id".to_sym, create(reflection.name).id] }
   end
 
-  before { post "/api/#{pluralized_name}", params:, headers: }
+  before { |test| post("/api/#{pluralized_name}", params:, headers:) unless test.metadata[:skip_request] }
 end
 
 shared_examples 'post resource examples' do

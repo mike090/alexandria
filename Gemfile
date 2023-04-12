@@ -23,6 +23,8 @@ gem 'kaminari', '~> 1.2.2'
 
 gem 'pg_search', '~> 2.3.6'
 
+gem 'bcrypt', '~> 3.1.18'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails', '~> 6.2.0'
