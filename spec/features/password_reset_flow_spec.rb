@@ -9,7 +9,7 @@ RSpec.describe 'Password Reset Flow', type: :request do
   end
   let(:update_params) { { password: 'new_password' } }
 
-  include_context 'authentication'
+  include_context 'authenticate client'
 
   it 'resets the password' do
     expect(john.authenticate('password')).not_to be false

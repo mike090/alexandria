@@ -14,7 +14,7 @@ RSpec.describe 'Search' do
       get "/api/search/#{text}", headers:
     end
 
-    include_context 'authentication'
+    include_context 'authenticate client'
 
     context 'with text = ruby' do
       let(:text) { 'ruby' }

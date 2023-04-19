@@ -21,7 +21,7 @@ RSpec.describe 'resource Users' do
     end
 
     context 'with authentication' do
-      include_context 'authentication'
+      include_context 'authenticate user', :admin
       include_examples 'get resources examples'
 
       include_examples 'fields picking', pick_fields: %i[given_name family_name]
@@ -42,7 +42,7 @@ RSpec.describe 'resource Users' do
     end
 
     context 'with authentication' do
-      include_context 'authentication'
+      include_context 'authenticate user', :admin
       include_examples 'get resource examples'
     end
   end
@@ -57,17 +57,18 @@ RSpec.describe 'resource Users' do
     end
 
     context 'with authentication' do
-      include_context 'authentication'
+      include_context 'authenticate client'
 
       context 'with valid parameters' do
         it 'adds a record to db, returns created user with location' do
           expect(response).to have_http_status :created
-          expect(response.body).to eq({ data: resource_presenter.new(model.first, {}).fields }.to_json)
-          expect(model.count).to eq(1)
+          created = model.find_by(**resource_data.except(:password))
+          expect(response.body).to eq({ data: resource_presenter.new(created, {}).fields }.to_json)
+          expect(created).not_to be_nil
           expected = resource_data.except(:password).transform_values(&:to_s)
-          expect(model.first.attributes.symbolize_keys).to include expected
+          expect(created.attributes.symbolize_keys).to include expected
           expect(response.headers['Location']).to eq(
-            "http://www.example.com/api/#{pluralized_name}/#{model.first.id}"
+            "http://www.example.com/api/#{pluralized_name}/#{created.id}"
           )
         end
 
@@ -82,7 +83,7 @@ RSpec.describe 'resource Users' do
 
         it 'does not add a record to db, returns HTTP status 422 with error details' do
           expect(response).to have_http_status :unprocessable_entity
-          expect(model.count).to eq 0
+          expect(model.find_by(**resource_data.except(:password))).to be_nil
           expect(json_body['error']['invalid_params'].symbolize_keys).to(
             include(*invalid_attributes.keys)
           )
@@ -101,7 +102,7 @@ RSpec.describe 'resource Users' do
     end
 
     context 'with authentication' do
-      include_context 'authentication'
+      include_context 'authenticate user', :admin
       include_examples 'patch resource examples'
     end
   end
@@ -116,7 +117,7 @@ RSpec.describe 'resource Users' do
     end
 
     context 'with authentication' do
-      include_context 'authentication'
+      include_context 'authenticate user', :admin
       include_examples 'delete resource examples'
     end
   end

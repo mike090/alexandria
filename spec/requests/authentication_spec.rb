@@ -18,7 +18,7 @@ RSpec.describe 'Authentication' do
       let(:headers) { { 'HTTP_AUTHORIZATION' => "Alexandria-Token api_key=#{api_key.id}:#{api_key.key}" } }
 
       context 'with invalid API Key' do
-        let(:api_key) { build(:api_key, id: 1, key: 'fake_key') }
+        let(:api_key) { build_stubbed(:api_key, id: 1, key: 'fake_key') }
 
         it 'responts with HTTP status 401 "Unauthorized"' do
           expect(response).to have_http_status :unauthorized

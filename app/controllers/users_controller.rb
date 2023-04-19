@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action :authenticate_user, only: %i[index show update destroy]
+  before_action :authorize_actions
+
   def index
     users = orchestrate_query(User.all)
     render serialize(users)
@@ -37,6 +40,8 @@ class UsersController < ApplicationController
   def user
     @user ||= params[:id] ? User.find(params[:id]) : User.new(user_params)
   end
+
+  alias resource user
 
   def user_params
     params.require(:data).permit(

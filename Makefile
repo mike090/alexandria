@@ -12,4 +12,7 @@ test:
 
 check: lint test
 
+console:
+	rails c --sandbox
+
 .PHONY: test

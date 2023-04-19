@@ -26,7 +26,7 @@ RSpec.describe 'resource Publishers' do
     end
 
     context 'with authentication' do
-      include_context 'authentication'
+      include_context 'authenticate client'
       include_examples 'get resources examples'
 
       include_examples 'fields picking', pick_fields: %i[name id]
@@ -47,7 +47,7 @@ RSpec.describe 'resource Publishers' do
     end
 
     context 'with authentication' do
-      include_context 'authentication'
+      include_context 'authenticate client'
       include_examples 'get resource examples'
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe 'resource Publishers' do
     end
 
     context 'with authentication' do
-      include_context 'authentication'
+      include_context 'authenticate user', :admin
       include_examples 'post resource examples'
     end
   end
@@ -77,7 +77,7 @@ RSpec.describe 'resource Publishers' do
     end
 
     context 'with authentication' do
-      include_context 'authentication'
+      include_context 'authenticate user', :admin
       include_examples 'patch resource examples'
     end
   end
@@ -92,7 +92,7 @@ RSpec.describe 'resource Publishers' do
     end
 
     context 'with authentication' do
-      include_context 'authentication'
+      include_context 'authenticate user', :admin
       include_examples 'delete resource examples'
     end
   end

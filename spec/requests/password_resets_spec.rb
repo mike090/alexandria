@@ -6,7 +6,7 @@ RSpec.describe 'PasswordResets' do
   describe 'POST /api/passwords_resets' do
     let(:user) { create(:user) }
 
-    include_context 'authentication'
+    include_context 'authenticate client'
 
     before { post '/api/password_resets', params:, headers: }
 
@@ -95,7 +95,7 @@ RSpec.describe 'PasswordResets' do
       patch "/api/password_resets/#{token}", params:, headers:
     end
 
-    include_context 'authentication'
+    include_context 'authenticate client'
 
     context 'with existing user (token is valid)' do
       let(:user) { create(:user, :reset_password) }

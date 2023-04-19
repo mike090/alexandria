@@ -24,8 +24,15 @@ RSpec/MultipleMemoizedHelpers:
   Enabled: false
 RSpec/MultipleExpectations:
   Max: 7
+  Exclude:
+    - 'spec/features/**'
 RSpec/ExampleLength:
   Max: 12
+  Exclude:
+    - 'spec/features/**'
 RSpec/ContextWording:
   Include:
     - cheks for
+RSpec/RepeatedExample:
+  Exclude:
+    - 'spec/policies/**'

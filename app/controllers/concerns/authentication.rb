@@ -21,6 +21,10 @@ module Authentication
     unauthorized!('Client Relam') unless api_key
   end
 
+  def authenticate_user
+    unauthorized!('User Relam') unless access_token
+  end
+
   def unauthorized!(realm)
     headers['WWW-Authenticate'] = %(#{AUTH_SCHEME} realm="#{realm}")
     render status: 401
@@ -30,20 +34,19 @@ module Authentication
     @authorization_request ||= request.authorization.to_s
   end
 
-  def credentials
-    @credentials ||= authorization_request.scan(/(\w+)[:=] ?"?([\w|:]+)"?/).to_h
+  def authenticator
+    @authenticator ||= Authenticator.new(authorization_request)
   end
 
   def api_key
-    return nil if credentials['api_key'].blank?
-
-    id, key = credentials['api_key'].split(':')
-    api_key = id && key && ApiKey.activated.find_by(id:)
-
-    return api_key if api_key && secure_compare_with_hashing(api_key.key, key)
+    @api_key ||= authenticator.api_key
   end
 
-  def secure_compare_with_hashing(val_a, val_b)
-    secure_compare(Digest::SHA1.hexdigest(val_a), Digest::SHA1.hexdigest(val_b))
+  def access_token
+    @access_token ||= authenticator.access_token
+  end
+
+  def current_user
+    @current_user ||= access_token.try(:user)
   end
 end

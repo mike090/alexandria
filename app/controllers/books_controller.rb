@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class BooksController < ApplicationController
+  before_action :authenticate_user, only: %i[create update destroy]
+  before_action :authorize_actions
+
   def index
     books = orchestrate_query(Book.all)
     render serialize(books)

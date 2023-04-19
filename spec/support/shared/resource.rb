@@ -18,8 +18,9 @@ shared_examples 'post resource examples' do
     it 'adds a record to db and returns created resource with location' do
       expect(response).to have_http_status :created
       expect(response.body).to eq({ data: resource_presenter.new(model.first, {}).fields }.to_json)
-      expect(model.count).to eq(1)
-      expect(model.first.attributes.symbolize_keys).to include(resource_data)
+      created = model.find_by(**resource_data)
+      expect(created).not_to be_nil
+      expect(created.attributes.symbolize_keys).to include(resource_data)
       expect(response.headers['Location']).to eq(
         "http://www.example.com/api/#{pluralized_name}/#{model.first.id}"
       )
@@ -31,7 +32,7 @@ shared_examples 'post resource examples' do
 
     it 'does not add a record to db, returns HTTP status 422 with error details' do
       expect(response).to have_http_status :unprocessable_entity
-      expect(model.count).to eq 0
+      expect(model.find_by(**resource_data)).to be_nil
       expect(json_body['error']['invalid_params'].symbolize_keys).to(
         include(*invalid_attributes.keys)
       )
@@ -135,7 +136,7 @@ shared_examples 'delete resource examples' do
   context 'with existing resource' do
     it 'deletes the record and returns HTTP status 204' do
       expect(response).to have_http_status :no_content
-      expect(model.count).to eq 0
+      expect(model.find_by(id: resource.id)).to be_nil
     end
   end
 
@@ -145,7 +146,7 @@ shared_examples 'delete resource examples' do
     it 'returns HTTP status 404' do
       resource
       expect(response).to have_http_status :not_found
-      expect(model.count).to eq 1
+      expect(model.find_by(id: resource.id)).not_to be_nil
     end
   end
 end
@@ -196,26 +197,28 @@ shared_examples 'sorting' do |sorting_column:|
       it 'returns sorted data' do
         expect(response).to have_http_status :ok
         expect(json_body['data'].map { |res| res[column.to_s] }).to(
-          eq(resources.map(&column.to_sym).sort_by(&:downcase))
+          eq(model.order(column).map(&column.to_sym))
         )
       end
     end
 
     context 'with invalid sorting params' do
-      let(:query_params) { { sort: :foo, dir: :asc } }
+      context 'when column name is invalid' do
+        let(:query_params) { { sort: :foo, dir: :asc } }
 
-      it 'returns an error with invalid parameters' do
-        expect(response).to have_http_status :bad_request
-        expect(json_body['error']['invalid_params']).to eq 'sort=foo'
+        it 'returns an error with invalid parameters' do
+          expect(response).to have_http_status :bad_request
+          expect(json_body['error']['invalid_params']).to eq 'sort=foo'
+        end
       end
-    end
 
-    context 'when sorting direction invalid' do
-      let(:query_params) { { sort: column, dir: :ascending } }
+      context 'when sorting direction is invalid' do
+        let(:query_params) { { sort: column, dir: :ascending } }
 
-      it 'returns an error with invalid parameters' do
-        expect(response).to have_http_status :bad_request
-        expect(json_body['error']['invalid_params']).to eq 'dir=ascending'
+        it 'returns an error with invalid parameters' do
+          expect(response).to have_http_status :bad_request
+          expect(json_body['error']['invalid_params']).to eq 'dir=ascending'
+        end
       end
     end
   end
